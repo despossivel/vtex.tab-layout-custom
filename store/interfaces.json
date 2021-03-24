@@ -12,7 +12,7 @@
   "tab-list.item": {
     "component": "TabListItem",
     "content": {
-      "$ref": "app:vtex.tab-layout#/definitions/TabListItem"
+      "$ref": "app:oonni.tab-layout#/definitions/TabListItem"
     }
   },
   "tab-list.item.children": {

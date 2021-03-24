@@ -17,7 +17,7 @@ const TabLayout: StorefrontFunctionComponent<Props> = props => {
   const handles = useCssHandles(CSS_HANDLES)
 
   return (
-    <TabLayoutContextProvider activeTab={defaultActiveTabId}>
+    <TabLayoutContextProvider activeTab={defaultActiveTabId} checkEmptyContent=''>
       <div className={handles.container}>
         {children}
       </div>

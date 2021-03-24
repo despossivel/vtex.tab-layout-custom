@@ -1,35 +1,60 @@
 import React, { FunctionComponent, useContext, useReducer } from 'react'
 
 interface TabLayoutContextProps {
-  activeTab: string
+  activeTab: string,
+  checkEmptyContent: string
 }
 
-interface ChangeActiveTabAction {
-  type: 'changeActiveTab'
-  payload: {
-    newActiveTab: string
-  }
-}
+// interface ChangeActiveTabAction {
+//   type: 'changeActiveTab'
+//   payload: {
+//     newActiveTab: string
+//   }
+// }
 
-type Dispatch = (action: ChangeActiveTabAction) => void
+// interface CheckEmptyContentAction {
+//   type: 'checkEmptyContent'
+//   payload: {
+//     newCheckEmptyContent: Boolean
+//   }
+// }
+
+
+// interface TypesDispach {
+//   ChangeActiveTabAction: String,
+//   CheckEmptyContentAction: String
+// }
+
+type Dispatch = (action: any) => void
 
 const initialState = {
-  activeTab: ""
+  activeTab: "",
+  checkEmptyContent: ""
 }
 
 const TabLayoutStateContext = React.createContext<TabLayoutContextProps>(initialState)
 const TabLayoutDispatchContext = React.createContext<Dispatch | undefined>(undefined)
 
-function reducer(state: TabLayoutContextProps, action: ChangeActiveTabAction): TabLayoutContextProps {
+function reducer(state: any, action: any): TabLayoutContextProps {
   switch (action.type) {
     case 'changeActiveTab':
-      if (action.payload.newActiveTab === state.activeTab) {
-        return state
-      }
+      if (action.payload.newActiveTab === state.activeTab) return state
+
       return {
         ...state,
         activeTab: action.payload.newActiveTab
       }
+
+      break;
+
+    case 'changeCheckEmptyContent':
+      if (action.payload.newCheckEmptyContent === state.checkEmptyContent) return state
+
+      return {
+        ...state,
+        checkEmptyContent: action.payload.newCheckEmptyContent
+      }
+
     default:
       return state
   }
@@ -37,17 +62,17 @@ function reducer(state: TabLayoutContextProps, action: ChangeActiveTabAction): T
 
 const TabLayoutContextProvider: FunctionComponent<
   TabLayoutContextProps
-> = ({ children, activeTab }) => {
+> = ({ children, activeTab, checkEmptyContent }) => {
   const [state, dispatch] = useReducer(reducer, {
     activeTab,
+    checkEmptyContent
   })
-  return (
-    <TabLayoutStateContext.Provider value={state}>
-      <TabLayoutDispatchContext.Provider value={dispatch}>
-        {children}
-      </TabLayoutDispatchContext.Provider>
-    </TabLayoutStateContext.Provider>
-  )
+  return <TabLayoutStateContext.Provider value={state}>
+    <TabLayoutDispatchContext.Provider value={dispatch}>
+      {children}
+    </TabLayoutDispatchContext.Provider>
+  </TabLayoutStateContext.Provider>
+
 }
 
 function useTabState() {
